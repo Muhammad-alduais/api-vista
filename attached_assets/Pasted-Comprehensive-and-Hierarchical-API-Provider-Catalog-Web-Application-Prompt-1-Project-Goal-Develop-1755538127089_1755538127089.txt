@@ -1,0 +1,599 @@
+Comprehensive and Hierarchical API Provider Catalog Web Application Prompt
+
+1. Project Goal
+
+Develop a robust, user-friendly, and comprehensive web application to serve as a hierarchical API provider catalog. The primary goal is to create a system that can store, manage, and present highly detailed information about various API providers and their offerings in a structured, hierarchical manner. This will enable an AI system to intelligently select the most suitable provider, API, category, and endpoint for specific information retrieval tasks.
+
+2. Core Logical Enhancements
+
+This revised prompt introduces critical logical changes to the catalog's structure to address previous shortcomings. The new design must be based on a hierarchical model and a centralized, dynamic category system.
+
+2.1. Hierarchical Data Model
+
+The catalog must move away from a flat structure to a clear hierarchy. The relationships should be as follows:
+
+•
+Provider: The top-level entity (e.g., FlightRadar24).
+
+•
+API: A provider can have one or more distinct APIs (e.g., "Flight Tracking API", "Airport Data API"). Each API will have its own set of endpoints and documentation.
+
+•
+Endpoint: Each API is composed of multiple endpoints.
+
+This structure is crucial for accurately representing how providers offer their services and for the AI to make granular decisions.
+
+2.2. Shared and Dynamic Category Management
+
+Categories should not be tied to a specific provider. Instead, there must be a centralized, shared pool of categories that can be managed independently. This allows for a consistent and organized classification system across all providers.
+
+•
+Dynamic Management: The application must provide a dedicated interface for creating, editing, and deleting these shared categories.
+
+•
+Association: When adding or editing a provider's API, the user should be able to associate it with one or more of these pre-defined, shared categories from a list or dropdown menu.
+
+3. Core Functionality
+
+3.1. Data Entry & Management (CRUD Operations)
+
+The application must provide a web-based interface for easily entering, viewing, editing, and deleting information at all levels of the hierarchy: Providers, APIs, and Endpoints. All data entered should be automatically saved to a persistent data store.
+
+3.2. Comprehensive and Hierarchical Data Model
+
+The system must fully support the comprehensive API provider catalog schema, but adapted to the new hierarchical structure. The data store schema must be designed to accommodate this detailed, relational information.
+
+3.3. Multi-Entry Field Support
+
+Crucially, the application must continue to support multiple entries for fields where applicable, within the new hierarchical context. The user interface should provide an intuitive way to add, edit, and remove individual entries for these fields.
+
+3.4. Data Retrieval & Display
+
+•
+Hierarchical Navigation: The main view should present a list of providers. Clicking a provider should reveal its APIs. Clicking an API should reveal its endpoints.
+
+•
+Search/Filter: Functionality to search and filter at all levels (e.g., search for providers, filter APIs by category, search for specific endpoints).
+
+•
+Detailed View: Each level of the hierarchy (Provider, API, Endpoint) should have a detailed view displaying all its associated information.
+
+3.5. Data Export
+
+•
+Export to Structured Document: A dedicated button to export all stored data to a well-structured, multi-sheet document (e.g., Excel, CSV, JSON). The export must reflect the hierarchical relationships (e.g., separate sheets for Providers, APIs, Endpoints, and Categories, with clear relationships between them).
+
+4. User Interface (UI/UX)
+
+•
+Intuitive Navigation: The UI must be designed to make navigating the hierarchy simple and intuitive.
+
+•
+Clear Sections: Data entry forms and display views should be logically divided into clear, well-defined sections.
+
+•
+Bilingual Support: All labels, buttons, and display text must be available in both English and Arabic.
+
+•
+Responsive Design: The application should be fully responsive.
+
+•
+Dynamic Forms: The UI should dynamically allow users to add new entries for multi-entry fields and for adding new APIs to a provider, and new endpoints to an API.
+
+•
+Validation & Feedback: Implement robust client-side and server-side validation. Provide clear visual feedback for all operations.
+
+5. Data Store Design Considerations
+
+•
+Normalization and Relationships: The data store schema must be properly normalized with clearly defined relationships (one-to-many, many-to-many) to accurately represent the hierarchy and the shared category model.
+
+•
+Indexing: Implement appropriate indexing to optimize performance for searching and navigating the hierarchy.
+
+6. Deliverables
+
+1.
+A fully functional web application with all specified features.
+
+2.
+Complete source code.
+
+3.
+A detailed data store schema (e.g., SQL scripts, ORM definitions).
+
+4.
+Clear instructions for setup and deployment.
+
+7. Comprehensive and Hierarchical Field List
+
+This section explicitly lists all the fields that the web application must support, organized by the new hierarchical structure.
+
+API Provider Catalog Schema / مخطط كتالوج مزود API
+
+This document outlines a comprehensive schema for cataloging API providers, designed to capture all possible information for future data collection and analysis. / تحدد هذه الوثيقة مخططًا شاملاً لفهرسة مزودي واجهة برمجة التطبيقات (API)، مصممًا لالتقاط جميع المعلومات الممكنة لجمع البيانات وتحليلها في المستقبل.
+
+Provider Identity / هوية المزود
+
+•
+Provider Name: The official name of the API provider. / اسم المزود: الاسم الرسمي لمزود واجهة برمجة التطبيقات.
+
+•
+Short Code / Abbreviation: A concise identifier for the provider (e.g., FR24, RBX). / رمز قصير / اختصار: معرف موجز للمزود (على سبيل المثال، FR24، RBX).
+
+•
+Website URL: The official website of the API provider. / عنوان URL للموقع الإلكتروني: الموقع الرسمي لمزود واجهة برمجة التطبيقات.
+
+•
+Logo / Branding: (Optional) URL or reference to the provider's logo/branding assets. / الشعار / العلامة التجارية: (اختياري) عنوان URL أو مرجع لأصول شعار/علامة تجارية المزود.
+
+API Access / الوصول إلى واجهة برمجة التطبيقات
+
+•
+API Base URL(s): The root URL(s) for accessing the API endpoints. / عنوان (عناوين) URL الأساسي لواجهة برمجة التطبيقات: عنوان (عناوين) URL الجذرية للوصول إلى نقاط نهاية واجهة برمجة التطبيقات.
+
+•
+Documentation URL: The URL to the official API documentation. / عنوان URL للوثائق: عنوان URL لوثائق واجهة برمجة التطبيقات الرسمية.
+
+•
+Auth Type: The authentication method(s) supported (e.g., API Key, OAuth2, Basic, None). / نوع المصادقة: طريقة (طرق) المصادقة المدعومة (على سبيل المثال، مفتاح API، OAuth2، أساسي، لا شيء).
+
+•
+Pricing / Plan Info: Structured details on available plans and pricing models: / معلومات التسعير / الخطة: تفاصيل منظمة حول الخطط المتاحة ونماذج التسعير:
+
+•
+Plan Name: (e.g., Free, Developer, Business, Enterprise). / اسم الخطة: (على سبيل المثال، مجاني، مطور، أعمال، مؤسسة).
+
+•
+Pricing Model: (e.g., Per-request, Tiered, Subscription, Pay-as-you-go). / نموذج التسعير: (على سبيل المثال، لكل طلب، متدرج، اشتراك، الدفع حسب الاستخدام).
+
+•
+Included Requests/Credits: Number of requests or credits included per billing period. / الطلبات/الاعتمادات المتضمنة: عدد الطلبات أو الاعتمادات المتضمنة لكل فترة فوترة.
+
+•
+Overage Cost: Cost per additional request/credit beyond the included amount. / تكلفة الزيادة: تكلفة كل طلب/اعتماد إضافي يتجاوز المبلغ المتضمن.
+
+•
+Features Included: List of features or data access levels specific to this plan. / الميزات المتضمنة: قائمة بالميزات أو مستويات الوصول إلى البيانات الخاصة بهذه الخطة.
+
+•
+Rate Limit (Plan Specific): Any rate limits specific to this plan, if different from overall API limits. / حد المعدل (خاص بالخطة): أي حدود للمعدل خاصة بهذه الخطة، إذا كانت مختلفة عن حدود واجهة برمجة التطبيقات الإجمالية.
+
+•
+Trial Period: (If applicable) Duration and limitations of any free trial. / الفترة التجريبية: (إن أمكن) مدة وقيود أي فترة تجريبية مجانية.
+
+•
+Link to Pricing Page: Direct URL to the provider's pricing page. / رابط صفحة التسعير: عنوان URL مباشر لصفحة تسعير المزود.
+
+
+
+•
+Rate Limits: Overall API rate limits (e.g., 100 requests/minute, daily limits), if not plan-specific. / حدود المعدل: حدود المعدل الإجمالية لواجهة برمجة التطبيقات (على سبيل المثال، 100 طلب/دقيقة، حدود يومية)، إذا لم تكن خاصة بالخطة.
+
+Coverage Scope / نطاق التغطية
+
+•
+Geographic Coverage: The regions or countries for which data is available (e.g., Global, Regional, Country-specific). / التغطية الجغرافية: المناطق أو البلدان التي تتوفر فيها البيانات (على سبيل المثال، عالمي، إقليمي، خاص ببلد).
+
+•
+Data Sources: The origin of the data (e.g., ADS-B, MLAT, Satellite, Official schedules, Manual registry). / مصادر البيانات: أصل البيانات (على سبيل المثال، ADS-B، MLAT، الأقمار الصناعية، الجداول الرسمية، السجل اليدوي).
+
+•
+Historical Data Available?: Yes/No, and details on the depth of historical data (e.g., how many years back, specific date ranges). / البيانات التاريخية متاحة؟: نعم/لا، وتفاصيل حول عمق البيانات التاريخية (على سبيل المثال، كم سنة إلى الوراء، نطاقات تاريخ محددة).
+
+•
+Real-time Latency: The typical delay for real-time data (e.g., ms/seconds delay, average, worst-case). / زمن الاستجابة في الوقت الفعلي: التأخير النموذجي للبيانات في الوقت الفعلي (على سبيل المثال، تأخير بالمللي ثانية/ثانية، متوسط، أسوأ حالة).
+
+•
+Data Granularity: The level of detail provided for time-series data (e.g., per-second, per-minute, hourly, aggregated daily/monthly). / دقة البيانات: مستوى التفاصيل المقدمة لبيانات السلاسل الزمنية (على سبيل المثال، لكل ثانية، لكل دقيقة، كل ساعة، مجمعة يوميًا/شهريًا).
+
+•
+Coverage Depth: Specific details on what is covered within a category, crucial for AI to understand the exact scope: / عمق التغطية: تفاصيل محددة حول ما يتم تغطيته ضمن فئة، وهو أمر بالغ الأهمية للذكاء الاصطناعي لفهم النطاق الدقيق:
+
+•
+For Flights: Commercial, General Aviation, Military, Cargo; Flight phases (pre-flight, in-flight, post-flight); Data points (position, altitude, speed, heading, squawk, flight plan, estimated times). / للرحلات الجوية: تجارية، طيران عام، عسكرية، شحن؛ مراحل الرحلة (قبل الإقلاع، أثناء الرحلة، بعد الرحلة)؛ نقاط البيانات (الموقع، الارتفاع، السرعة، الاتجاه، رمز الإشارة، خطة الرحلة، الأوقات المقدرة).
+
+•
+For Aircraft: Types (fixed-wing, rotary-wing), specific models, registrations, tail numbers, age, owner information, photos, technical specifications. / للطائرات: الأنواع (ثابتة الجناحين، دوارة الجناحين)، نماذج محددة، تسجيلات، أرقام الذيل، العمر، معلومات المالك، الصور، المواصفات الفنية.
+
+•
+For Airports: Major international, regional, local, heliports; ICAO/IATA codes, coordinates, timezones, runways (length, surface), airport diagrams, operational status, services available. / للمطارات: دولية رئيسية، إقليمية، محلية، مهابط طائرات هليكوبتر؛ رموز ICAO/IATA، الإحداثيات، المناطق الزمنية، مدارج (الطول، السطح)، مخططات المطارات، حالة التشغيل، الخدمات المتاحة.
+
+•
+For Airlines: ICAO/IATA codes, callsigns, fleet information (types, count), operational hubs, alliances. / لشركات الطيران: رموز ICAO/IATA، إشارات النداء، معلومات الأسطول (الأنواع، العدد)، مراكز التشغيل، التحالفات.
+
+•
+For Schedules: Planned vs. actual times, delays, cancellations, route information (origin, destination, stops), flight status. / للجداول الزمنية: الأوقات المخطط لها مقابل الأوقات الفعلية، التأخيرات، الإلغاءات، معلومات المسار (الأصل، الوجهة، التوقفات)، حالة الرحلة.
+
+•
+For Weather: METAR, TAF, SIGMET, NOTAMs; coverage area, update frequency, specific weather parameters (temperature, wind, visibility, pressure). / للطقس: METAR، TAF، SIGMET، NOTAMs؛ منطقة التغطية، تكرار التحديث، معلمات الطقس المحددة (درجة الحرارة، الرياح، الرؤية، الضغط).
+
+
+
+•
+Data Completeness: Estimated percentage of available data for a given scope (e.g., 95% of commercial flights in Europe). / اكتمال البيانات: النسبة المئوية المقدرة للبيانات المتاحة لنطاق معين (على سبيل المثال، 95% من الرحلات التجارية في أوروبا).
+
+•
+Data Refresh Rate: How often the underlying data is updated by the provider (distinct from API update frequency). / معدل تحديث البيانات: عدد مرات تحديث البيانات الأساسية بواسطة المزود (يختلف عن تكرار تحديث واجهة برمجة التطبيقات).
+
+API Structure / هيكل واجهة برمجة التطبيقات
+
+•
+Categories: Broad classifications of the API's functionality, with sub-categories for finer granularity, enabling the AI to understand the domain: / الفئات: تصنيفات واسعة لوظائف واجهة برمجة التطبيقات، مع فئات فرعية لدقة أكبر، مما يمكن الذكاء الاصطناعي من فهم المجال:
+
+•
+Category Name: (e.g., Flights, Aircraft, Airports, Airlines, Routes, Weather, Schedules, Fleet, Registrations). / اسم الفئة: (على سبيل المثال، الرحلات الجوية، الطائرات، المطارات، شركات الطيران، المسارات، الطقس، الجداول الزمنية، الأسطول، التسجيلات).
+
+•
+Description: A brief explanation of what this category covers. / الوصف: شرح موجز لما تغطيه هذه الفئة.
+
+•
+Key Entities: Primary entities associated with this category (e.g., for Flights: Flight, Aircraft, Airport; for Weather: METAR, TAF). / الكيانات الرئيسية: الكيانات الأساسية المرتبطة بهذه الفئة (على سبيل المثال، للرحلات الجوية: رحلة، طائرة، مطار؛ للطقس: METAR، TAF).
+
+•
+Related Categories: Other categories that often interact with this one. / الفئات ذات الصلة: الفئات الأخرى التي تتفاعل غالبًا مع هذه الفئة.
+
+
+
+•
+Number of Endpoints: The total count of available API endpoints. / عدد نقاط النهاية: العدد الإجمالي لنقاط نهاية واجهة برمجة التطبيقات المتاحة.
+
+•
+Supported Formats: Data formats supported for requests and responses (e.g., JSON, XML, CSV). / التنسيقات المدعومة: تنسيقات البيانات المدعومة للطلبات والاستجابات (على سبيل المثال، JSON، XML، CSV).
+
+•
+Versioning: Information on API versioning (e.g., v1, v2, GraphQL, REST). / الإصدار: معلومات حول إصدار واجهة برمجة التطبيقات (على سبيل المثال، v1، v2، GraphQL، REST).
+
+•
+API Design Style: (e.g., RESTful, GraphQL, SOAP, RPC). / نمط تصميم واجهة برمجة التطبيقات: (على سبيل المثال، RESTful، GraphQL، SOAP، RPC).
+
+•
+Endpoint Relationships/Dependencies: How different endpoints relate to each other (e.g., GET /flights might return flight IDs, which are then used in GET /flight/{id}/details). / علاقات/تبعيات نقطة النهاية: كيفية ارتباط نقاط النهاية المختلفة ببعضها البعض (على سبيل المثال، قد تُرجع GET /flights معرفات الرحلات، والتي تُستخدم بعد ذلك في GET /flight/{id}/details).
+
+Endpoint Metadata (per category) / بيانات تعريف نقطة النهاية (لكل فئة)
+
+•
+Endpoint Name: The human-readable name of the endpoint. / اسم نقطة النهاية: الاسم المقروء لنقطة النهاية.
+
+•
+Path/URL: The specific path or URL segment for the endpoint. / المسار/عنوان URL: المسار المحدد أو جزء عنوان URL لنقطة النهاية.
+
+•
+HTTP Method(s): The HTTP verb(s) supported (e.g., GET, POST, PUT, DELETE). / طريقة (طرق) HTTP: فعل (أفعال) HTTP المدعومة (على سبيل المثال، GET، POST، PUT، DELETE).
+
+•
+Description: A brief explanation of the endpoint's purpose and what it does. / الوصف: شرح موجز لغرض نقطة النهاية وما تفعله.
+
+•
+Authentication Required: Yes/No, and if so, which authentication type (from the API Access section) is required for this specific endpoint. / المصادقة مطلوبة: نعم/لا، وإذا كان الأمر كذلك، فما هو نوع المصادقة (من قسم الوصول إلى واجهة برمجة التطبيقات) المطلوب لنقطة النهاية المحددة هذه.
+
+•
+Input Parameters: A detailed list of input parameters: / معلمات الإدخال: قائمة مفصلة بمعلمات الإدخال:
+
+•
+Parameter Name: The name of the parameter. / اسم المعلمة: اسم المعلمة.
+
+•
+Type: Data type (e.g., string, integer, boolean, array, object). / النوع: نوع البيانات (على سبيل المثال، سلسلة، عدد صحيح، منطقي، مصفوفة، كائن).
+
+•
+Required: Yes/No. / مطلوب: نعم/لا.
+
+•
+Description: Explanation of the parameter's purpose. / الوصف: شرح لغرض المعلمة.
+
+•
+Constraints/Format: Any specific rules (e.g., min/max length, regex, date format, enum values). / القيود/التنسيق: أي قواعد محددة (على سبيل المثال، الحد الأدنى/الأقصى للطول، التعبير النمطي، تنسيق التاريخ، قيم التعداد).
+
+•
+Location: Where the parameter is expected (e.g., query, header, path, body). / الموقع: حيث يُتوقع المعلمة (على سبيل المثال، استعلام، رأس، مسار، نص).
+
+
+
+•
+Output Schema / Response Fields: A detailed description of the expected response structure and fields: / مخطط الإخراج / حقول الاستجابة: وصف مفصل لهيكل الاستجابة المتوقع وحقولها:
+
+•
+Field Name: The name of the field in the response. / اسم الحقل: اسم الحقل في الاستجابة.
+
+•
+Type: Data type (e.g., string, integer, boolean, array, object). / النوع: نوع البيانات (على سبيل المثال، سلسلة، عدد صحيح، منطقي، مصفوفة، كائن).
+
+•
+Description: Explanation of the field's content. / الوصف: شرح لمحتوى الحقل.
+
+•
+Nullable: Yes/No. / قابل للقيم الفارغة: نعم/لا.
+
+•
+Example Value: A typical example of the field's value. / قيمة مثال: مثال نموذجي لقيمة الحقل.
+
+•
+Nested Fields: If the field is an object or array, details of its sub-fields. / الحقول المتداخلة: إذا كان الحقل كائنًا أو مصفوفة، تفاصيل حقوله الفرعية.
+
+
+
+•
+Response Example(s): Sample JSON/XML responses for different scenarios (e.g., success, error, empty result). / أمثلة الاستجابة: أمثلة استجابات JSON/XML لسيناريوهات مختلفة (على سبيل المثال، نجاح، خطأ، نتيجة فارغة).
+
+•
+Scenario: Description of the scenario (e.g., "Successful lookup", "Invalid API Key"). / السيناريو: وصف السيناريو (على سبيل المثال، "بحث ناجح"، "مفتاح API غير صالح").
+
+•
+HTTP Status Code: The expected HTTP status code (e.g., 200, 400, 404). / رمز حالة HTTP: رمز حالة HTTP المتوقع (على سبيل المثال، 200، 400، 404).
+
+•
+Example Body: The full example response body. / نص المثال: نص الاستجابة الكامل للمثال.
+
+
+
+•
+Error Codes/Messages: A list of possible error codes and their corresponding messages/descriptions. / رموز/رسائل الخطأ: قائمة برموز الخطأ المحتملة ورسائلها/أوصافها المقابلة.
+
+•
+Endpoint-Specific Rate Limits: Any rate limits that apply specifically to this endpoint, if different from overall API limits. / حدود المعدل الخاصة بنقطة النهاية: أي حدود للمعدل تنطبق خصيصًا على نقطة النهاية هذه، إذا كانت مختلفة عن حدود واجهة برمجة التطبيقات الإجمالية.
+
+•
+Last Updated (Endpoint): The date this specific endpoint's documentation or structure was last known to be updated. / آخر تحديث (نقطة النهاية): تاريخ آخر تحديث معروف لوثائق أو هيكل نقطة النهاية المحددة هذه.
+
+Quality & Reliability / الجودة والموثوقية
+
+•
+Uptime SLA: (If published) Service Level Agreement regarding API uptime (e.g., 99.9%, 99.99%), including any historical uptime metrics. / اتفاقية مستوى الخدمة للتشغيل: (إذا تم نشرها) اتفاقية مستوى الخدمة المتعلقة بوقت تشغيل واجهة برمجة التطبيقات (على سبيل المثال، 99.9%، 99.99%)، بما في ذلك أي مقاييس تاريخية لوقت التشغيل.
+
+•
+Update Frequency: How often the API data is updated (e.g., seconds/minutes/daily), distinguishing between real-time streams and batch updates. / تكرار التحديث: عدد مرات تحديث بيانات واجهة برمجة التطبيقات (على سبيل المثال، بالثواني/الدقائق/يوميًا)، مع التمييز بين التدفقات في الوقت الفعلي والتحديثات المجمعة.
+
+•
+Known Limitations: Any documented restrictions, rate caps, missing fields, or known data inconsistencies. / القيود المعروفة: أي قيود موثقة، أو حدود للمعدل، أو حقول مفقودة، أو تناقضات معروفة في البيانات.
+
+•
+Data Accuracy Metrics: (If published) Information on data accuracy or error rates (e.g., percentage of correct flight statuses, position accuracy in meters). / مقاييس دقة البيانات: (إذا تم نشرها) معلومات حول دقة البيانات أو معدلات الخطأ (على سبيل المثال، النسبة المئوية لحالات الرحلات الصحيحة، دقة الموقع بالأمتار).
+
+•
+Data Validation Procedures: How the provider ensures data quality (e.g., cross-referencing with official sources, manual checks, automated anomaly detection). / إجراءات التحقق من صحة البيانات: كيف يضمن المزود جودة البيانات (على سبيل المثال، المقارنة المرجعية مع المصادر الرسمية، الفحوصات اليدوية، الكشف التلقائي عن الشذوذ).
+
+•
+Response Time/Latency: Average and peak response times for typical queries (e.g., milliseconds, seconds). / وقت الاستجابة/الكمون: متوسط وأقصى أوقات الاستجابة للاستعلامات النموذجية (على سبيل المثال، بالمللي ثانية، بالثواني).
+
+•
+Reliability History: Any public records of past outages or performance issues. / سجل الموثوقية: أي سجلات عامة لانقطاعات سابقة أو مشكلات في الأداء.
+
+•
+Data Freshness: How recently the data was acquired or updated before being served by the API. / حداثة البيانات: مدى حداثة البيانات التي تم الحصول عليها أو تحديثها قبل تقديمها بواسطة واجهة برمجة التطبيقات.
+
+Legal & Licensing / الشؤون القانونية والترخيص
+
+•
+License Type: The type of license governing API usage (e.g., Open, Commercial, Restricted). / نوع الترخيص: نوع الترخيص الذي يحكم استخدام واجهة برمجة التطبيقات (على سبيل المثال، مفتوح، تجاري، مقيد).
+
+•
+Terms of Use URL: The URL to the API provider's terms of use. / عنوان URL لشروط الاستخدام: عنوان URL لشروط استخدام مزود واجهة برمجة التطبيقات.
+
+•
+Data Usage Restrictions: Any specific restrictions on how the data can be used (e.g., no resale, academic only). / قيود استخدام البيانات: أي قيود محددة على كيفية استخدام البيانات (على سبيل المثال، عدم إعادة البيع، للاستخدام الأكاديمي فقط).
+
+•
+Attribution Requirements: Any requirements for crediting the data source. / متطلبات الإسناد: أي متطلبات لإسناد مصدر البيانات.
+
+Analytics Enhancements (for your system) / تحسينات التحليلات (لنظامك)
+
+•
+Normalized Field Mappings: How fields from this API map to a standardized internal schema, crucial for AI to generalize across providers: / تعيينات الحقول المعيارية: كيفية تعيين الحقول من واجهة برمجة التطبيقات هذه إلى مخطط داخلي موحد، وهو أمر بالغ الأهمية للذكاء الاصطناعي للتعميم عبر المزودين:
+
+•
+Provider Field Name: The original field name from the API response. / اسم حقل المزود: اسم الحقل الأصلي من استجابة واجهة برمجة التطبيقات.
+
+•
+Standardized Field Name: The corresponding name in your internal, normalized schema. / اسم الحقل الموحد: الاسم المقابل في مخططك الداخلي الموحد.
+
+•
+Transformation Logic: Any logic required to convert the provider's field to the standardized format (e.g., unit conversion, date format parsing, string manipulation). / منطق التحويل: أي منطق مطلوب لتحويل حقل المزود إلى التنسيق الموحد (على سبيل المثال، تحويل الوحدات، تحليل تنسيق التاريخ، معالجة السلاسل النصية).
+
+
+
+•
+Aliases for Duplicate Fields: Alternative names for fields that might appear under different names across providers, aiding AI in understanding semantic equivalence. / أسماء بديلة للحقول المكررة: أسماء بديلة للحقول التي قد تظهر بأسماء مختلفة عبر المزودين، مما يساعد الذكاء الاصطناعي في فهم التكافؤ الدلالي.
+
+•
+Response Schema Version History: A record of changes to the API's response schema over time, allowing AI to adapt to schema evolution. / سجل إصدار مخطط الاستجابة: سجل التغييرات على مخطط استجابة واجهة برمجة التطبيقات بمرور الوقت، مما يسمح للذكاء الاصطناعي بالتكيف مع تطور المخطط.
+
+•
+Cross-Provider Coverage Tags: Tags indicating the type of data provided across different providers (e.g., "Flights", "Airports", "Weather"), enabling AI to quickly identify relevant providers. / علامات التغطية عبر المزودين: علامات تشير إلى نوع البيانات المقدمة عبر المزودين المختلفين (على سبيل المثال، "الرحلات الجوية"، "المطارات"، "الطقس")، مما يمكن الذكاء الاصطناعي من تحديد المزودين ذوي الصلة بسرعة.
+
+•
+Semantic Data Types: Assigning specific semantic types to fields (e.g., latitude, longitude, ICAO_code, flight_status), beyond just primitive data types, for better AI understanding. / أنواع البيانات الدلالية: تعيين أنواع دلالية محددة للحقول (على سبيل المثال، خط العرض، خط الطول، رمز ICAO، حالة الرحلة)، بما يتجاوز أنواع البيانات الأولية، لتحسين فهم الذكاء الاصطناعي.
+
+•
+Query Intent Mapping: Examples of natural language queries or intents that this API/endpoint can fulfill, helping the AI map user requests to API calls. / تعيين نية الاستعلام: أمثلة على استعلامات اللغة الطبيعية أو النوايا التي يمكن لواجهة برمجة التطبيقات/نقطة النهاية هذه تلبيتها، مما يساعد الذكاء الاصطناعي على تعيين طلبات المستخدم إلى استدعاءات واجهة برمجة التطبيقات.
+
+•
+Data Quality Score (Internal): An internal assessment of the data quality from this provider, based on your own validation and experience. / درجة جودة البيانات (داخلية): تقييم داخلي لجودة البيانات من هذا المزود، بناءً على التحقق الخاص بك والخبرة.
+
+•
+Preferred Use Cases (Internal): Specific scenarios or types of queries for which this provider is internally preferred. / حالات الاستخدام المفضلة (داخلية): سيناريوهات أو أنواع استعلامات محددة يفضل فيها هذا المزود داخليًا.
+
+Operational & Support / التشغيل والدعم
+
+•
+Support Contact / Channel: Information on how to contact support (e.g., email, support portal, Discord). / جهة الاتصال / قناة الدعم: معلومات حول كيفية الاتصال بالدعم (على سبيل المثال، البريد الإلكتروني، بوابة الدعم، Discord).
+
+•
+SDKs Available: List of official or community-built SDKs (e.g., Python, Node.js, Java). / حزم تطوير البرامج (SDKs) المتاحة: قائمة بحزم تطوير البرامج الرسمية أو التي بناها المجتمع (على سبيل المثال، Python، Node.js، Java).
+
+•
+Deprecation Policy URL: URL to the provider's policy on API version deprecation. / عنوان URL لسياسة الإهمال: عنوان URL لسياسة المزود بشأن إهمال إصدار واجهة برمجة التطبيقات.
+
+•
+Service Status Page URL: Link to a page showing real-time API status and incidents. / عنوان URL لصفحة حالة الخدمة: رابط لصفحة تعرض حالة واجهة برمجة التطبيقات والحوادث في الوقت الفعلي.
+
+Community & Reputation / المجتمع والسمعة
+
+•
+Community Forum / Discussion URL: URL to any community forums or discussion groups. / منتدى المجتمع / عنوان URL للمناقشة: عنوان URL لأي منتديات مجتمعية أو مجموعات مناقشة.
+
+•
+Known Use Cases / Major Consumers: Examples of how the API is used or by whom (e.g., "Used by FlightAware"). / حالات الاستخدام المعروفة / المستهلكون الرئيسيون: أمثلة على كيفية استخدام واجهة برمجة التطبيقات أو من قبل من (على سبيل المثال، "تستخدمها FlightAware").
+
+•
+User Reviews / Ratings: (If available) Aggregated user feedback or ratings. / مراجعات المستخدمين / التقييمات: (إذا كانت متاحة) ملاحظات المستخدمين المجمعة أو التقييمات.
+
+Internal Management / الإدارة الداخلية
+
+•
+Internal Owner / Team: The internal team or individual responsible for managing this API integration. / المالك / الفريق الداخلي: الفريق الداخلي أو الفرد المسؤول عن إدارة تكامل واجهة برمجة التطبيقات هذه.
+
+•
+Date Added / Last Updated: Dates tracking when the provider was added to the catalog and when its information was last verified. / تاريخ الإضافة / آخر تحديث: تواريخ تتبع وقت إضافة المزود إلى الكتالوج ووقت آخر تحقق من معلوماته.
+
+•
+Internal Notes: Any specific internal notes or considerations for this provider. / ملاحظات داخلية: أي ملاحظات داخلية محددة أو اعتبارات لهذا المزود.
+
+Aviation-Specific Fields / حقول خاصة بالطيران
+
+•
+Aircraft Data Specifics: Structured details on the depth of aircraft data: / تفاصيل بيانات الطائرات: تفاصيل منظمة حول عمق بيانات الطائرات:
+
+•
+Data Points Covered: (e.g., Tail Number, Registration, ICAO Type Designator, Manufacturer, Model, Serial Number, Age, Owner Information, Operator, Photo URL, Engine Type, Max Takeoff Weight, Wingspan, Length, Height). / نقاط البيانات المغطاة: (على سبيل المثال، رقم الذيل، التسجيل، معرف نوع ICAO، الشركة المصنعة، الطراز، الرقم التسلسلي، العمر، معلومات المالك، المشغل، عنوان URL للصورة، نوع المحرك، أقصى وزن للإقلاع، طول الجناحين، الطول، الارتفاع).
+
+•
+Identification Methods: How aircraft can be identified (e.g., Hex Code, Registration, ICAO Type Designator). / طرق التحديد: كيفية تحديد الطائرات (على سبيل المثال، رمز Hex، التسجيل، معرف نوع ICAO).
+
+
+
+•
+Flight Data Specifics: Structured details on flight tracking: / تفاصيل بيانات الرحلات الجوية: تفاصيل منظمة حول تتبع الرحلات الجوية:
+
+•
+Data Points Covered: (e.g., Real-time Position (Lat/Lon), Altitude (Barometric/Geometric), Ground Speed, Vertical Speed, Heading, Squawk Code, Flight Number (IATA/ICAO), Call Sign, Origin Airport (ICAO/IATA), Destination Airport (ICAA/IATA), Estimated Time of Arrival/Departure, Actual Time of Arrival/Departure, Flight Status (e.g., En Route, Landed, Scheduled, Cancelled, Diverted), Flight Rules (VFR/IFR), Flight Phase (e.g., Taxi, Takeoff, Climb, Cruise, Descent, Landing)). / نقاط البيانات المغطاة: (على سبيل المثال، الموقع في الوقت الفعلي (خط العرض/خط الطول)، الارتفاع (البارومتري/الهندسي)، السرعة الأرضية، السرعة العمودية، الاتجاه، رمز الإشارة، رقم الرحلة (IATA/ICAO)، إشارة النداء، مطار المغادرة (ICAO/IATA)، مطار الوجهة (ICAO/IATA)، الوقت المقدر للوصول/المغادرة، الوقت الفعلي للوصول/المغادرة، حالة الرحلة (على سبيل المثال، في الطريق، هبطت، مجدولة، ملغاة، محولة)، قواعد الطيران (VFR/IFR)، مرحلة الرحلة (على سبيل المثال، التاكسي، الإقلاع، الصعود، التحليق، الهبوط، الهبوط)).
+
+•
+Historical Track Granularity: (e.g., per-second, per-minute, aggregated). / دقة المسار التاريخي: (على سبيل المثال، لكل ثانية، لكل دقيقة، مجمعة).
+
+•
+Prediction Capabilities: (e.g., Estimated Time of Arrival, Predicted Route). / قدرات التنبؤ: (على سبيل المثال، الوقت المقدر للوصول، المسار المتوقع).
+
+
+
+•
+Airport Data Specifics: Structured details on airport information: / تفاصيل بيانات المطارات: تفاصيل منظمة حول معلومات المطارات:
+
+•
+Data Points Covered: (e.g., ICAO Code, IATA Code, Name, City, Country, Latitude, Longitude, Altitude, Timezone, Daylight Saving Time, Runway Details (length, width, surface, true heading), Operational Status, Services Available (e.g., Fuel, Maintenance, Customs)). / نقاط البيانات المغطاة: (على سبيل المثال، رمز ICAO، رمز IATA، الاسم، المدينة، البلد، خط العرض، خط الطول، الارتفاع، المنطقة الزمنية، التوقيت الصيفي، تفاصيل المدرج (الطول، العرض، السطح، الاتجاه الحقيقي)، حالة التشغيل، الخدمات المتاحة (على سبيل المثال، الوقود، الصيانة، الجمارك)).
+
+•
+Identification Methods: How airports can be identified (e.g., ICAO Code, IATA Code, Name). / طرق التحديد: كيفية تحديد المطارات (على سبيل المثال، رمز ICAO، رمز IATA، الاسم).
+
+
+
+•
+Airline Data Specifics: Structured details on airline information: / تفاصيل بيانات شركات الطيران: تفاصيل منظمة حول معلومات شركات الطيران:
+
+•
+Data Points Covered: (e.g., ICAO Code, IATA Code, Name, Callsign, Country, Fleet Information (types, count), Operational Hubs, Alliance Membership, Logo URL). / نقاط البيانات المغطاة: (على سبيل المثال، رمز ICAO، رمز IATA، الاسم، إشارة النداء، البلد، معلومات الأسطول (الأنواع، العدد)، مراكز التشغيل، عضوية التحالف، عنوان URL للشعار).
+
+•
+Identification Methods: How airlines can be identified (e.g., ICAO Code, IATA Code, Name). / طرق التحديد: كيفية تحديد شركات الطيران (على سبيل المثال، رمز ICAO، رمز IATA، الاسم).
+
+
+
+•
+Schedule Data Specifics: Structured details on flight schedules: / تفاصيل بيانات الجدول الزمني: تفاصيل منظمة حول جداول الرحلات الجوية:
+
+•
+Data Points Covered: (e.g., Flight Number, Departure Airport, Arrival Airport, Scheduled Departure Time, Scheduled Arrival Time, Actual Departure Time, Actual Arrival Time, Delay Information, Cancellation Status, Route Information (stops, layovers)). / نقاط البيانات المغطاة: (على سبيل المثال، رقم الرحلة، مطار المغادرة، مطار الوصول، وقت المغادرة المجدول، وقت الوصول المجدول، وقت المغادرة الفعلي، وقت الوصول الفعلي، معلومات التأخير، حالة الإلغاء، معلومات المسار (التوقفات، التوقفات المؤقتة)).
+
+•
+Schedule Types: (e.g., Daily, Seasonal, Ad-hoc). / أنواع الجدول الزمني: (على سبيل المثال، يومي، موسمي، مخصص).
+
+
+
+•
+Weather Data Integration: Details on weather data provided: / تكامل بيانات الطقس: تفاصيل حول بيانات الطقس المقدمة:
+
+•
+Weather Data Types: (e.g., METAR, TAF, SIGMET, AIRMET, NOTAMs, Satellite Imagery, Radar Data). / أنواع بيانات الطقس: (على سبيل المثال، METAR، TAF، SIGMET، AIRMET، NOTAMs، صور الأقمار الصناعية، بيانات الرادار).
+
+•
+Coverage Area: Geographic scope of weather data. / منطقة التغطية: النطاق الجغرافي لبيانات الطقس.
+
+•
+Update Frequency: How often weather data is updated. / تكرار التحديث: عدد مرات تحديث بيانات الطقس.
+
+•
+Parameters Covered: (e.g., Temperature, Wind Speed/Direction, Visibility, Cloud Cover, Pressure, Precipitation). / المعلمات المغطاة: (على سبيل المثال، درجة الحرارة، سرعة/اتجاه الرياح، الرؤية، الغطاء السحابي، الضغط، الهطول).
+
+
+
+•
+Data Update Mechanism: How real-time data is pushed/pulled (e.g., Webhooks, Streaming API (e.g., WebSocket), Polling). / آلية تحديث البيانات: كيفية دفع/سحب البيانات في الوقت الفعلي (على سبيل المثال، Webhooks، واجهة برمجة تطبيقات البث (على سبيل المثال، WebSocket)، الاستقصاء).
+
+•
+Unique Identifiers Supported: What unique identifiers are supported for queries across different data types (e.g., ICAO Aircraft Hex Code, ICAO/IATA Flight Number, ICAO/IATA Airport Code, ICAO/IATA Airline Code, Registration, Callsign). / المعرفات الفريدة المدعومة: ما هي المعرفات الفريدة المدعومة للاستعلامات عبر أنواع البيانات المختلفة (على سبيل المثال، رمز Hex للطائرة ICAO، رقم الرحلة ICAO/IATA، رمز المطار ICAO/IATA، رمز شركة الطيران ICAO/IATA، التسجيل، إشارة النداء).
+
+•
+Data Format Nuances: Any specific quirks or non-standard elements in the data formats (e.g., specific date formats, unit conventions, custom enumerations). / فروق دقيقة في تنسيق البيانات: أي تفاصيل أو عناصر غير قياسية في تنسيقات البيانات (على سبيل المثال، تنسيقات تاريخ محددة، اتفاقيات الوحدات، تعدادات مخصصة).
+
+•
+Coverage of Specific Aviation Events: Ability to track or provide data on specific events (e.g., diversions, emergencies, ground movements, special flights, military exercises). / تغطية أحداث طيران محددة: القدرة على تتبع أو توفير بيانات حول أحداث محددة (على سبيل المثال، التحويلات، حالات الطوارئ، التحركات الأرضية، الرحلات الخاصة، التدريبات العسكرية).
+
+•
+Regulatory Compliance (Aviation): Adherence to aviation-specific regulations (e.g., FAA, EASA data sharing, GDPR for passenger data). / الامتثال التنظيمي (الطيران): الالتزام باللوائح الخاصة بالطيران (على سبيل المثال، FAA، مشاركة بيانات EASA، GDPR لبيانات الركاب).
+
+•
+Data Retention Policy: How long specific types of aviation data are retained by the provider (e.g., real-time data for 24 hours, historical data for 5 years). / سياسة الاحتفاظ بالبيانات: المدة التي يتم فيها الاحتفاظ بأنواع محددة من بيانات الطيران بواسطة المزود (على سبيل المثال، بيانات في الوقت الفعلي لمدة 24 ساعة، بيانات تاريخية لمدة 5 سنوات).
+
+•
+Source Reliability (Aviation): Specific details on the reliability of aviation data sources (e.g., percentage of ADS-B data, reliance on official ATC feeds, manual entry). / موثوقية المصدر (الطيران): تفاصيل محددة حول موثوقية مصادر بيانات الطيران (على سبيل المثال، النسبة المئوية لبيانات ADS-B، الاعتماد على تغذيات ATC الرسمية، الإدخال اليدوي).
+
+•
+Data Harmonization Efforts: How the provider handles discrepancies or inconsistencies from multiple data sources. / جهود تنسيق البيانات: كيفية تعامل المزود مع التناقضات أو عدم الاتساق من مصادر بيانات متعددة.
+
+AI-Specific Metadata (for intelligent API selection) / بيانات تعريف خاصة بالذكاء الاصطناعي (لاختيار واجهة برمجة التطبيقات الذكي)
+
+•
+Query Complexity Support: What types of queries this API/endpoint can handle (e.g., Simple lookups, Complex filtering, Aggregations, Time-series analysis). / دعم تعقيد الاستعلام: أنواع الاستعلامات التي يمكن لواجهة برمجة التطبيقات/نقطة النهاية هذه التعامل معها (على سبيل المثال، عمليات البحث البسيطة، التصفية المعقدة، التجميعات، تحليل السلاسل الزمنية).
+
+•
+Response Completeness Score: An internal assessment of how complete the API responses are (e.g., percentage of fields typically populated). / درجة اكتمال الاستجابة: تقييم داخلي لمدى اكتمال استجابات واجهة برمجة التطبيقات (على سبيل المثال، النسبة المئوية للحقول المعبأة عادة).
+
+•
+Cost Efficiency Ranking: Internal ranking of cost-effectiveness for different types of queries. / ترتيب كفاءة التكلفة: ترتيب داخلي لفعالية التكلفة لأنواع مختلفة من الاستعلامات.
+
+•
+Performance Benchmarks: Internal benchmarks for response time and throughput under different load conditions. / معايير الأداء: معايير داخلية لوقت الاستجابة والإنتاجية تحت ظروف تحميل مختلفة.
+
+•
+Fallback Providers: List of alternative providers that can serve similar data in case this provider is unavailable. / المزودون الاحتياطيون: قائمة بالمزودين البديلين الذين يمكنهم تقديم بيانات مماثلة في حالة عدم توفر هذا المزود.
+
+•
+Complementary Providers: Other providers that can be used in conjunction with this one to provide more complete data. / المزودون التكميليون: مزودون آخرون يمكن استخدامهم بالاقتران مع هذا المزود لتوفير بيانات أكثر اكتمالاً.
+
+•
+Query Pattern Examples: Specific examples of queries that work well with this provider, formatted for AI training: / أمثلة على أنماط الاستعلام: أمثلة محددة للاستعلامات التي تعمل بشكل جيد مع هذا المزود، منسقة لتدريب الذكاء الاصطناعي:
+
+•
+Natural Language Query: (e.g., "Show me all flights from JFK to LAX today"). / استعلام اللغة الطبيعية: (على سبيل المثال، "أظهر لي جميع الرحلات الجوية من JFK إلى LAX اليوم").
+
+•
+Structured Query: The corresponding API call structure. / الاستعلام المنظم: هيكل استدعاء واجهة برمجة التطبيقات المقابل.
+
+•
+Expected Response Structure: What the AI should expect in return. / هيكل الاستجابة المتوقع: ما يجب أن يتوقعه الذكاء الاصطناعي في المقابل.
+
+
+
+•
+Data Fusion Opportunities: How this provider's data can be combined with data from other providers for enhanced results. / فرص دمج البيانات: كيفية دمج بيانات هذا المزود مع بيانات من مزودين آخرين للحصول على نتائج محسنة.
+
+•
+Confidence Intervals: For data that includes uncertainty, the typical confidence intervals or error margins. / فترات الثقة: للبيانات التي تتضمن عدم اليقين، فترات الثقة النموذجية أو هوامش الخطأ.
+
+•
+Temporal Relevance: How long the data from this provider remains relevant (e.g., real-time data becomes stale in minutes). / الأهمية الزمنية: المدة التي تظل فيها البيانات من هذا المزود ذات صلة (على سبيل المثال، تصبح البيانات في الوقت الفعلي قديمة في غضون دقائق).
+
+8. Implementation Notes
+
+The web application must be designed to handle this comprehensive schema while maintaining usability and performance. Consider implementing progressive disclosure techniques to manage the complexity of the interface, and ensure that the hierarchical relationships are clearly represented in both the data model and user interface.
+
