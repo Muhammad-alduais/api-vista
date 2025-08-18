@@ -1,452 +1,771 @@
 import { 
-  categories, providers, apis, endpoints, providerCategories, apiCategories,
-  type Category, type Provider, type Api, type Endpoint, type ProviderCategory, type ApiCategory,
-  type InsertCategory, type InsertProvider, type InsertApi, type InsertEndpoint, 
-  type InsertProviderCategory, type InsertApiCategory,
-  type ProviderWithRelations, type ApiWithRelations, type EndpointWithRelations,
-  type User, type InsertUser
+  categories, providers, environments, services, apis, endpoints, operations, 
+  parameters, responseSchemas, authConfigs, rateLimits, errorCodes, examples,
+  providerCategories, apiCategories,
+  type Category, type Provider, type Environment, type Service, type Api, 
+  type Endpoint, type Operation, type Parameter, type ResponseSchema,
+  type AuthConfig, type RateLimit, type ErrorCode, type Example,
+  type ProviderWithRelations, type ServiceWithRelations, type ApiWithRelations, type OperationWithRelations,
+  insertCategorySchema, insertProviderSchema, insertEnvironmentSchema, insertServiceSchema,
+  insertApiSchema, insertEndpointSchema, insertOperationSchema, insertParameterSchema,
+  insertResponseSchemaSchema
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, ilike, and, or, desc } from "drizzle-orm";
+import { eq, like, or, inArray, and, desc } from "drizzle-orm";
+import type { z } from "zod";
 
 export interface IStorage {
-  // User methods (legacy)
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
-
-  // Category methods
+  // Categories
   getCategories(): Promise<Category[]>;
-  getCategoryById(id: string): Promise<Category | undefined>;
-  createCategory(category: InsertCategory): Promise<Category>;
-  updateCategory(id: string, category: Partial<InsertCategory>): Promise<Category | undefined>;
-  deleteCategory(id: string): Promise<boolean>;
+  createCategory(category: z.infer<typeof insertCategorySchema>): Promise<Category>;
+  updateCategory(id: string, category: Partial<z.infer<typeof insertCategorySchema>>): Promise<Category>;
+  deleteCategory(id: string): Promise<void>;
 
-  // Provider methods
-  getProviders(search?: string): Promise<ProviderWithRelations[]>;
-  getProviderById(id: string): Promise<ProviderWithRelations | undefined>;
-  createProvider(provider: InsertProvider, categoryIds: string[]): Promise<ProviderWithRelations>;
-  updateProvider(id: string, provider: Partial<InsertProvider>, categoryIds?: string[]): Promise<ProviderWithRelations | undefined>;
-  deleteProvider(id: string): Promise<boolean>;
+  // Providers
+  getProviders(): Promise<ProviderWithRelations[]>;
+  getProvider(id: string): Promise<ProviderWithRelations | undefined>;
+  createProvider(provider: z.infer<typeof insertProviderSchema> & { categoryIds?: string[] }): Promise<Provider>;
+  updateProvider(id: string, provider: Partial<z.infer<typeof insertProviderSchema>> & { categoryIds?: string[] }): Promise<Provider>;
+  deleteProvider(id: string): Promise<void>;
 
-  // API methods
-  getApisByProviderId(providerId: string): Promise<ApiWithRelations[]>;
-  getApiById(id: string): Promise<ApiWithRelations | undefined>;
-  createApi(api: InsertApi, categoryIds: string[]): Promise<ApiWithRelations>;
-  updateApi(id: string, api: Partial<InsertApi>, categoryIds?: string[]): Promise<ApiWithRelations | undefined>;
-  deleteApi(id: string): Promise<boolean>;
+  // Environments
+  getEnvironments(providerId: string): Promise<Environment[]>;
+  createEnvironment(environment: z.infer<typeof insertEnvironmentSchema>): Promise<Environment>;
+  updateEnvironment(id: string, environment: Partial<z.infer<typeof insertEnvironmentSchema>>): Promise<Environment>;
+  deleteEnvironment(id: string): Promise<void>;
 
-  // Endpoint methods
-  getEndpointsByApiId(apiId: string): Promise<Endpoint[]>;
-  getEndpointById(id: string): Promise<EndpointWithRelations | undefined>;
-  createEndpoint(endpoint: InsertEndpoint): Promise<Endpoint>;
-  updateEndpoint(id: string, endpoint: Partial<InsertEndpoint>): Promise<Endpoint | undefined>;
-  deleteEndpoint(id: string): Promise<boolean>;
+  // Services
+  getServices(providerId: string): Promise<ServiceWithRelations[]>;
+  getService(id: string): Promise<ServiceWithRelations | undefined>;
+  createService(service: z.infer<typeof insertServiceSchema>): Promise<Service>;
+  updateService(id: string, service: Partial<z.infer<typeof insertServiceSchema>>): Promise<Service>;
+  deleteService(id: string): Promise<void>;
 
-  // Search methods
-  searchAll(query: string): Promise<{
+  // APIs
+  getApis(serviceId?: string, providerId?: string): Promise<ApiWithRelations[]>;
+  getApi(id: string): Promise<ApiWithRelations | undefined>;
+  createApi(api: z.infer<typeof insertApiSchema> & { categoryIds?: string[] }): Promise<Api>;
+  updateApi(id: string, api: Partial<z.infer<typeof insertApiSchema>> & { categoryIds?: string[] }): Promise<Api>;
+  deleteApi(id: string): Promise<void>;
+
+  // Endpoints
+  getEndpoints(apiId: string): Promise<Endpoint[]>;
+  createEndpoint(endpoint: z.infer<typeof insertEndpointSchema>): Promise<Endpoint>;
+  updateEndpoint(id: string, endpoint: Partial<z.infer<typeof insertEndpointSchema>>): Promise<Endpoint>;
+  deleteEndpoint(id: string): Promise<void>;
+
+  // Operations
+  getOperations(endpointId: string): Promise<OperationWithRelations[]>;
+  getOperation(id: string): Promise<OperationWithRelations | undefined>;
+  createOperation(operation: z.infer<typeof insertOperationSchema>): Promise<Operation>;
+  updateOperation(id: string, operation: Partial<z.infer<typeof insertOperationSchema>>): Promise<Operation>;
+  deleteOperation(id: string): Promise<void>;
+
+  // Parameters
+  getParameters(operationId: string): Promise<Parameter[]>;
+  createParameter(parameter: z.infer<typeof insertParameterSchema>): Promise<Parameter>;
+  updateParameter(id: string, parameter: Partial<z.infer<typeof insertParameterSchema>>): Promise<Parameter>;
+  deleteParameter(id: string): Promise<void>;
+
+  // Response Schemas
+  getResponseSchemas(operationId: string): Promise<ResponseSchema[]>;
+  createResponseSchema(schema: z.infer<typeof insertResponseSchemaSchema>): Promise<ResponseSchema>;
+  updateResponseSchema(id: string, schema: Partial<z.infer<typeof insertResponseSchemaSchema>>): Promise<ResponseSchema>;
+  deleteResponseSchema(id: string): Promise<void>;
+
+  // Search
+  search(query: string): Promise<{
     providers: ProviderWithRelations[];
+    services: ServiceWithRelations[];
     apis: ApiWithRelations[];
-    endpoints: EndpointWithRelations[];
-  }>;
-
-  // Export methods
-  exportData(): Promise<{
-    categories: Category[];
-    providers: ProviderWithRelations[];
-    apis: ApiWithRelations[];
-    endpoints: EndpointWithRelations[];
+    operations: OperationWithRelations[];
   }>;
 }
 
 export class DatabaseStorage implements IStorage {
-  // User methods
-  async getUser(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(providers).where(eq(providers.id, id));
-    return user || undefined;
-  }
-
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(providers).where(eq(providers.name, username));
-    return user || undefined;
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const [user] = await db.insert(providers).values(insertUser as any).returning();
-    return user as any;
-  }
-
-  // Category methods
+  // Categories
   async getCategories(): Promise<Category[]> {
-    return await db.select().from(categories).orderBy(categories.name);
+    return db.select().from(categories).orderBy(categories.name);
   }
 
-  async getCategoryById(id: string): Promise<Category | undefined> {
-    const [category] = await db.select().from(categories).where(eq(categories.id, id));
-    return category || undefined;
-  }
-
-  async createCategory(category: InsertCategory): Promise<Category> {
+  async createCategory(category: z.infer<typeof insertCategorySchema>): Promise<Category> {
     const [newCategory] = await db.insert(categories).values(category).returning();
     return newCategory;
   }
 
-  async updateCategory(id: string, category: Partial<InsertCategory>): Promise<Category | undefined> {
+  async updateCategory(id: string, category: Partial<z.infer<typeof insertCategorySchema>>): Promise<Category> {
     const [updated] = await db
       .update(categories)
       .set({ ...category, updatedAt: new Date() })
       .where(eq(categories.id, id))
       .returning();
-    return updated || undefined;
+    return updated;
   }
 
-  async deleteCategory(id: string): Promise<boolean> {
-    const result = await db.delete(categories).where(eq(categories.id, id));
-    return result.rowCount > 0;
+  async deleteCategory(id: string): Promise<void> {
+    await db.delete(categories).where(eq(categories.id, id));
   }
 
-  // Provider methods
-  async getProviders(search?: string): Promise<ProviderWithRelations[]> {
-    const providersData = await db.query.providers.findMany({
-      where: search 
-        ? or(
-            ilike(providers.name, `%${search}%`),
-            ilike(providers.shortCode, `%${search}%`),
-            ilike(providers.description, `%${search}%`)
-          )
-        : undefined,
+  // Providers
+  async getProviders(): Promise<ProviderWithRelations[]> {
+    return db.query.providers.findMany({
       with: {
-        apis: {
+        environments: true,
+        services: {
           with: {
-            endpoints: true,
-            apiCategories: {
+            apis: {
               with: {
-                category: true
-              }
-            }
-          }
+                endpoints: {
+                  with: {
+                    operations: {
+                      with: {
+                        parameters: true,
+                        responseSchemas: true,
+                        examples: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         providerCategories: {
           with: {
-            category: true
-          }
-        }
+            category: true,
+          },
+        },
+        authConfigs: true,
       },
-      orderBy: [desc(providers.createdAt)]
-    });
-
-    return providersData.map(provider => ({
-      ...provider,
-      categories: provider.providerCategories.map(pc => pc.category),
-      apis: provider.apis.map(api => ({
-        ...api,
-        categories: api.apiCategories.map(ac => ac.category)
+    }).then(providers => 
+      providers.map(provider => ({
+        ...provider,
+        categories: provider.providerCategories.map(pc => pc.category),
       }))
-    }));
+    );
   }
 
-  async getProviderById(id: string): Promise<ProviderWithRelations | undefined> {
-    const providerData = await db.query.providers.findFirst({
+  async getProvider(id: string): Promise<ProviderWithRelations | undefined> {
+    const provider = await db.query.providers.findFirst({
       where: eq(providers.id, id),
       with: {
-        apis: {
+        environments: true,
+        services: {
           with: {
-            endpoints: true,
-            apiCategories: {
+            apis: {
               with: {
-                category: true
-              }
-            }
-          }
+                endpoints: {
+                  with: {
+                    operations: {
+                      with: {
+                        parameters: true,
+                        responseSchemas: true,
+                        examples: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         providerCategories: {
           with: {
-            category: true
-          }
-        }
-      }
+            category: true,
+          },
+        },
+        authConfigs: true,
+      },
     });
 
-    if (!providerData) return undefined;
+    if (!provider) return undefined;
 
     return {
-      ...providerData,
-      categories: providerData.providerCategories.map(pc => pc.category),
-      apis: providerData.apis.map(api => ({
-        ...api,
-        categories: api.apiCategories.map(ac => ac.category)
-      }))
+      ...provider,
+      categories: provider.providerCategories.map(pc => pc.category),
     };
   }
 
-  async createProvider(provider: InsertProvider, categoryIds: string[]): Promise<ProviderWithRelations> {
-    const [newProvider] = await db.insert(providers).values(provider).returning();
-    
-    // Add category associations
-    if (categoryIds.length > 0) {
+  async createProvider(provider: z.infer<typeof insertProviderSchema> & { categoryIds?: string[] }): Promise<Provider> {
+    const { categoryIds, ...providerData } = provider;
+    const [newProvider] = await db.insert(providers).values(providerData).returning();
+
+    if (categoryIds && categoryIds.length > 0) {
       await db.insert(providerCategories).values(
         categoryIds.map(categoryId => ({
           providerId: newProvider.id,
-          categoryId
+          categoryId,
         }))
       );
     }
 
-    const result = await this.getProviderById(newProvider.id);
-    if (!result) throw new Error("Failed to create provider");
-    return result;
+    return newProvider;
   }
 
-  async updateProvider(id: string, provider: Partial<InsertProvider>, categoryIds?: string[]): Promise<ProviderWithRelations | undefined> {
+  async updateProvider(id: string, provider: Partial<z.infer<typeof insertProviderSchema>> & { categoryIds?: string[] }): Promise<Provider> {
+    const { categoryIds, ...providerData } = provider;
+    
     const [updated] = await db
       .update(providers)
-      .set({ ...provider, updatedAt: new Date() })
+      .set({ ...providerData, updatedAt: new Date() })
       .where(eq(providers.id, id))
       .returning();
 
-    if (!updated) return undefined;
-
-    // Update category associations if provided
     if (categoryIds !== undefined) {
       await db.delete(providerCategories).where(eq(providerCategories.providerId, id));
       if (categoryIds.length > 0) {
         await db.insert(providerCategories).values(
           categoryIds.map(categoryId => ({
             providerId: id,
-            categoryId
+            categoryId,
           }))
         );
       }
     }
 
-    return await this.getProviderById(id);
+    return updated;
   }
 
-  async deleteProvider(id: string): Promise<boolean> {
-    const result = await db.delete(providers).where(eq(providers.id, id));
-    return result.rowCount > 0;
+  async deleteProvider(id: string): Promise<void> {
+    await db.delete(providers).where(eq(providers.id, id));
   }
 
-  // API methods
-  async getApisByProviderId(providerId: string): Promise<ApiWithRelations[]> {
-    const apisData = await db.query.apis.findMany({
-      where: eq(apis.providerId, providerId),
+  // Environments
+  async getEnvironments(providerId: string): Promise<Environment[]> {
+    return db.select().from(environments).where(eq(environments.providerId, providerId));
+  }
+
+  async createEnvironment(environment: z.infer<typeof insertEnvironmentSchema>): Promise<Environment> {
+    const [newEnvironment] = await db.insert(environments).values(environment).returning();
+    return newEnvironment;
+  }
+
+  async updateEnvironment(id: string, environment: Partial<z.infer<typeof insertEnvironmentSchema>>): Promise<Environment> {
+    const [updated] = await db
+      .update(environments)
+      .set({ ...environment, updatedAt: new Date() })
+      .where(eq(environments.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteEnvironment(id: string): Promise<void> {
+    await db.delete(environments).where(eq(environments.id, id));
+  }
+
+  // Services
+  async getServices(providerId: string): Promise<ServiceWithRelations[]> {
+    return db.query.services.findMany({
+      where: eq(services.providerId, providerId),
       with: {
         provider: true,
-        endpoints: true,
-        apiCategories: {
+        apis: {
           with: {
-            category: true
-          }
-        }
+            endpoints: {
+              with: {
+                operations: {
+                  with: {
+                    parameters: true,
+                    responseSchemas: true,
+                  },
+                },
+              },
+            },
+            apiCategories: {
+              with: {
+                category: true,
+              },
+            },
+          },
+        },
       },
-      orderBy: [desc(apis.createdAt)]
-    });
-
-    return apisData.map(api => ({
-      ...api,
-      categories: api.apiCategories.map(ac => ac.category)
-    }));
+    }).then(services => 
+      services.map(service => ({
+        ...service,
+        apis: service.apis.map(api => ({
+          ...api,
+          categories: api.apiCategories.map(ac => ac.category),
+        })),
+      }))
+    );
   }
 
-  async getApiById(id: string): Promise<ApiWithRelations | undefined> {
-    const apiData = await db.query.apis.findFirst({
-      where: eq(apis.id, id),
+  async getService(id: string): Promise<ServiceWithRelations | undefined> {
+    const service = await db.query.services.findFirst({
+      where: eq(services.id, id),
       with: {
         provider: true,
-        endpoints: true,
-        apiCategories: {
+        apis: {
           with: {
-            category: true
-          }
-        }
-      }
+            endpoints: {
+              with: {
+                operations: {
+                  with: {
+                    parameters: true,
+                    responseSchemas: true,
+                  },
+                },
+              },
+            },
+            apiCategories: {
+              with: {
+                category: true,
+              },
+            },
+          },
+        },
+      },
     });
 
-    if (!apiData) return undefined;
+    if (!service) return undefined;
 
     return {
-      ...apiData,
-      categories: apiData.apiCategories.map(ac => ac.category)
+      ...service,
+      apis: service.apis.map(api => ({
+        ...api,
+        categories: api.apiCategories.map(ac => ac.category),
+      })),
     };
   }
 
-  async createApi(api: InsertApi, categoryIds: string[]): Promise<ApiWithRelations> {
-    const [newApi] = await db.insert(apis).values(api).returning();
-    
-    // Add category associations
-    if (categoryIds.length > 0) {
+  async createService(service: z.infer<typeof insertServiceSchema>): Promise<Service> {
+    const [newService] = await db.insert(services).values(service).returning();
+    return newService;
+  }
+
+  async updateService(id: string, service: Partial<z.infer<typeof insertServiceSchema>>): Promise<Service> {
+    const [updated] = await db
+      .update(services)
+      .set({ ...service, updatedAt: new Date() })
+      .where(eq(services.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteService(id: string): Promise<void> {
+    await db.delete(services).where(eq(services.id, id));
+  }
+
+  // APIs
+  async getApis(serviceId?: string, providerId?: string): Promise<ApiWithRelations[]> {
+    const whereClause = serviceId ? eq(apis.serviceId, serviceId) : 
+                       providerId ? eq(apis.providerId, providerId) : undefined;
+
+    const query = whereClause ? 
+      db.query.apis.findMany({
+        where: whereClause,
+        with: {
+          service: { with: { provider: true } },
+          provider: true,
+          endpoints: {
+            with: {
+              operations: {
+                with: {
+                  parameters: true,
+                  responseSchemas: true,
+                  examples: true,
+                },
+              },
+            },
+          },
+          apiCategories: {
+            with: {
+              category: true,
+            },
+          },
+        },
+      }) :
+      db.query.apis.findMany({
+        with: {
+          service: { with: { provider: true } },
+          provider: true,
+          endpoints: {
+            with: {
+              operations: {
+                with: {
+                  parameters: true,
+                  responseSchemas: true,
+                  examples: true,
+                },
+              },
+            },
+          },
+          apiCategories: {
+            with: {
+              category: true,
+            },
+          },
+        },
+      });
+
+    return query.then(apis => 
+      apis.map(api => ({
+        ...api,
+        categories: api.apiCategories.map(ac => ac.category),
+      }))
+    );
+  }
+
+  async getApi(id: string): Promise<ApiWithRelations | undefined> {
+    const api = await db.query.apis.findFirst({
+      where: eq(apis.id, id),
+      with: {
+        service: { with: { provider: true } },
+        provider: true,
+        endpoints: {
+          with: {
+            operations: {
+              with: {
+                parameters: true,
+                responseSchemas: true,
+                examples: true,
+              },
+            },
+          },
+        },
+        apiCategories: {
+          with: {
+            category: true,
+          },
+        },
+      },
+    });
+
+    if (!api) return undefined;
+
+    return {
+      ...api,
+      categories: api.apiCategories.map(ac => ac.category),
+    };
+  }
+
+  async createApi(api: z.infer<typeof insertApiSchema> & { categoryIds?: string[] }): Promise<Api> {
+    const { categoryIds, ...apiData } = api;
+    const [newApi] = await db.insert(apis).values(apiData).returning();
+
+    if (categoryIds && categoryIds.length > 0) {
       await db.insert(apiCategories).values(
         categoryIds.map(categoryId => ({
           apiId: newApi.id,
-          categoryId
+          categoryId,
         }))
       );
     }
 
-    const result = await this.getApiById(newApi.id);
-    if (!result) throw new Error("Failed to create API");
-    return result;
+    return newApi;
   }
 
-  async updateApi(id: string, api: Partial<InsertApi>, categoryIds?: string[]): Promise<ApiWithRelations | undefined> {
+  async updateApi(id: string, api: Partial<z.infer<typeof insertApiSchema>> & { categoryIds?: string[] }): Promise<Api> {
+    const { categoryIds, ...apiData } = api;
+    
     const [updated] = await db
       .update(apis)
-      .set({ ...api, updatedAt: new Date() })
+      .set({ ...apiData, updatedAt: new Date() })
       .where(eq(apis.id, id))
       .returning();
 
-    if (!updated) return undefined;
-
-    // Update category associations if provided
     if (categoryIds !== undefined) {
       await db.delete(apiCategories).where(eq(apiCategories.apiId, id));
       if (categoryIds.length > 0) {
         await db.insert(apiCategories).values(
           categoryIds.map(categoryId => ({
             apiId: id,
-            categoryId
+            categoryId,
           }))
         );
       }
     }
 
-    return await this.getApiById(id);
+    return updated;
   }
 
-  async deleteApi(id: string): Promise<boolean> {
-    const result = await db.delete(apis).where(eq(apis.id, id));
-    return result.rowCount > 0;
+  async deleteApi(id: string): Promise<void> {
+    await db.delete(apis).where(eq(apis.id, id));
   }
 
-  // Endpoint methods
-  async getEndpointsByApiId(apiId: string): Promise<Endpoint[]> {
-    return await db.select().from(endpoints).where(eq(endpoints.apiId, apiId)).orderBy(endpoints.name);
+  // Endpoints
+  async getEndpoints(apiId: string): Promise<Endpoint[]> {
+    return db.select().from(endpoints).where(eq(endpoints.apiId, apiId));
   }
 
-  async getEndpointById(id: string): Promise<EndpointWithRelations | undefined> {
-    const endpointData = await db.query.endpoints.findFirst({
-      where: eq(endpoints.id, id),
-      with: {
-        api: {
-          with: {
-            provider: true
-          }
-        }
-      }
-    });
-
-    return endpointData || undefined;
-  }
-
-  async createEndpoint(endpoint: InsertEndpoint): Promise<Endpoint> {
+  async createEndpoint(endpoint: z.infer<typeof insertEndpointSchema>): Promise<Endpoint> {
     const [newEndpoint] = await db.insert(endpoints).values(endpoint).returning();
     return newEndpoint;
   }
 
-  async updateEndpoint(id: string, endpoint: Partial<InsertEndpoint>): Promise<Endpoint | undefined> {
+  async updateEndpoint(id: string, endpoint: Partial<z.infer<typeof insertEndpointSchema>>): Promise<Endpoint> {
     const [updated] = await db
       .update(endpoints)
       .set({ ...endpoint, updatedAt: new Date() })
       .where(eq(endpoints.id, id))
       .returning();
-    return updated || undefined;
+    return updated;
   }
 
-  async deleteEndpoint(id: string): Promise<boolean> {
-    const result = await db.delete(endpoints).where(eq(endpoints.id, id));
-    return result.rowCount > 0;
+  async deleteEndpoint(id: string): Promise<void> {
+    await db.delete(endpoints).where(eq(endpoints.id, id));
   }
 
-  // Search methods
-  async searchAll(query: string): Promise<{
+  // Operations
+  async getOperations(endpointId: string): Promise<OperationWithRelations[]> {
+    return db.query.operations.findMany({
+      where: eq(operations.endpointId, endpointId),
+      with: {
+        endpoint: {
+          with: {
+            api: {
+              with: {
+                service: { with: { provider: true } },
+              },
+            },
+          },
+        },
+        parameters: true,
+        responseSchemas: true,
+        examples: true,
+      },
+    });
+  }
+
+  async getOperation(id: string): Promise<OperationWithRelations | undefined> {
+    return db.query.operations.findFirst({
+      where: eq(operations.id, id),
+      with: {
+        endpoint: {
+          with: {
+            api: {
+              with: {
+                service: { with: { provider: true } },
+              },
+            },
+          },
+        },
+        parameters: true,
+        responseSchemas: true,
+        examples: true,
+      },
+    });
+  }
+
+  async createOperation(operation: z.infer<typeof insertOperationSchema>): Promise<Operation> {
+    const [newOperation] = await db.insert(operations).values(operation).returning();
+    return newOperation;
+  }
+
+  async updateOperation(id: string, operation: Partial<z.infer<typeof insertOperationSchema>>): Promise<Operation> {
+    const [updated] = await db
+      .update(operations)
+      .set({ ...operation, updatedAt: new Date() })
+      .where(eq(operations.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteOperation(id: string): Promise<void> {
+    await db.delete(operations).where(eq(operations.id, id));
+  }
+
+  // Parameters
+  async getParameters(operationId: string): Promise<Parameter[]> {
+    return db.select().from(parameters).where(eq(parameters.operationId, operationId));
+  }
+
+  async createParameter(parameter: z.infer<typeof insertParameterSchema>): Promise<Parameter> {
+    const [newParameter] = await db.insert(parameters).values(parameter).returning();
+    return newParameter;
+  }
+
+  async updateParameter(id: string, parameter: Partial<z.infer<typeof insertParameterSchema>>): Promise<Parameter> {
+    const [updated] = await db
+      .update(parameters)
+      .set({ ...parameter, updatedAt: new Date() })
+      .where(eq(parameters.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteParameter(id: string): Promise<void> {
+    await db.delete(parameters).where(eq(parameters.id, id));
+  }
+
+  // Response Schemas
+  async getResponseSchemas(operationId: string): Promise<ResponseSchema[]> {
+    return db.select().from(responseSchemas).where(eq(responseSchemas.operationId, operationId));
+  }
+
+  async createResponseSchema(schema: z.infer<typeof insertResponseSchemaSchema>): Promise<ResponseSchema> {
+    const [newSchema] = await db.insert(responseSchemas).values(schema).returning();
+    return newSchema;
+  }
+
+  async updateResponseSchema(id: string, schema: Partial<z.infer<typeof insertResponseSchemaSchema>>): Promise<ResponseSchema> {
+    const [updated] = await db
+      .update(responseSchemas)
+      .set({ ...schema, updatedAt: new Date() })
+      .where(eq(responseSchemas.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteResponseSchema(id: string): Promise<void> {
+    await db.delete(responseSchemas).where(eq(responseSchemas.id, id));
+  }
+
+  // Search
+  async search(query: string): Promise<{
     providers: ProviderWithRelations[];
+    services: ServiceWithRelations[];
     apis: ApiWithRelations[];
-    endpoints: EndpointWithRelations[];
+    operations: OperationWithRelations[];
   }> {
-    const searchProviders = await this.getProviders(query);
-    
-    const searchApis = await db.query.apis.findMany({
-      where: or(
-        ilike(apis.name, `%${query}%`),
-        ilike(apis.description, `%${query}%`)
-      ),
-      with: {
-        provider: true,
-        endpoints: true,
-        apiCategories: {
-          with: {
-            category: true
-          }
-        }
-      }
-    });
+    const searchPattern = `%${query.toLowerCase()}%`;
 
-    const searchEndpoints = await db.query.endpoints.findMany({
-      where: or(
-        ilike(endpoints.name, `%${query}%`),
-        ilike(endpoints.description, `%${query}%`),
-        ilike(endpoints.path, `%${query}%`)
+    const [searchProviders, searchServices, searchApis, searchOperations] = await Promise.all([
+      // Search providers
+      db.query.providers.findMany({
+        where: or(
+          like(providers.name, searchPattern),
+          like(providers.shortCode, searchPattern),
+          like(providers.geographicCoverage, searchPattern)
+        ),
+        with: {
+          environments: true,
+          services: {
+            with: {
+              apis: {
+                with: {
+                  endpoints: {
+                    with: {
+                      operations: {
+                        with: {
+                          parameters: true,
+                          responseSchemas: true,
+                          examples: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          providerCategories: {
+            with: {
+              category: true,
+            },
+          },
+          authConfigs: true,
+        },
+      }).then(providers => 
+        providers.map(provider => ({
+          ...provider,
+          categories: provider.providerCategories.map(pc => pc.category),
+        }))
       ),
-      with: {
-        api: {
-          with: {
-            provider: true
-          }
-        }
-      }
-    });
+
+      // Search services
+      db.query.services.findMany({
+        where: or(
+          like(services.name, searchPattern),
+          like(services.displayName, searchPattern),
+          like(services.description, searchPattern)
+        ),
+        with: {
+          provider: true,
+          apis: {
+            with: {
+              endpoints: {
+                with: {
+                  operations: {
+                    with: {
+                      parameters: true,
+                      responseSchemas: true,
+                    },
+                  },
+                },
+              },
+              apiCategories: {
+                with: {
+                  category: true,
+                },
+              },
+            },
+          },
+        },
+      }).then(services => 
+        services.map(service => ({
+          ...service,
+          apis: service.apis.map(api => ({
+            ...api,
+            categories: api.apiCategories.map(ac => ac.category),
+          })),
+        }))
+      ),
+
+      // Search APIs
+      db.query.apis.findMany({
+        where: or(
+          like(apis.name, searchPattern),
+          like(apis.displayName, searchPattern),
+          like(apis.description, searchPattern),
+          like(apis.authType, searchPattern)
+        ),
+        with: {
+          service: { with: { provider: true } },
+          provider: true,
+          endpoints: {
+            with: {
+              operations: {
+                with: {
+                  parameters: true,
+                  responseSchemas: true,
+                  examples: true,
+                },
+              },
+            },
+          },
+          apiCategories: {
+            with: {
+              category: true,
+            },
+          },
+        },
+      }).then(apis => 
+        apis.map(api => ({
+          ...api,
+          categories: api.apiCategories.map(ac => ac.category),
+        }))
+      ),
+
+      // Search operations
+      db.query.operations.findMany({
+        where: or(
+          like(operations.method, searchPattern),
+          like(operations.summary, searchPattern),
+          like(operations.description, searchPattern)
+        ),
+        with: {
+          endpoint: {
+            with: {
+              api: {
+                with: {
+                  service: { with: { provider: true } },
+                },
+              },
+            },
+          },
+          parameters: true,
+          responseSchemas: true,
+          examples: true,
+        },
+      }),
+    ]);
 
     return {
       providers: searchProviders,
-      apis: searchApis.map(api => ({
-        ...api,
-        categories: api.apiCategories.map(ac => ac.category)
-      })),
-      endpoints: searchEndpoints
-    };
-  }
-
-  // Export methods
-  async exportData(): Promise<{
-    categories: Category[];
-    providers: ProviderWithRelations[];
-    apis: ApiWithRelations[];
-    endpoints: EndpointWithRelations[];
-  }> {
-    const allCategories = await this.getCategories();
-    const allProviders = await this.getProviders();
-    
-    const allApis = await db.query.apis.findMany({
-      with: {
-        provider: true,
-        endpoints: true,
-        apiCategories: {
-          with: {
-            category: true
-          }
-        }
-      }
-    });
-
-    const allEndpoints = await db.query.endpoints.findMany({
-      with: {
-        api: {
-          with: {
-            provider: true
-          }
-        }
-      }
-    });
-
-    return {
-      categories: allCategories,
-      providers: allProviders,
-      apis: allApis.map(api => ({
-        ...api,
-        categories: api.apiCategories.map(ac => ac.category)
-      })),
-      endpoints: allEndpoints
+      services: searchServices,
+      apis: searchApis,
+      operations: searchOperations,
     };
   }
 }
