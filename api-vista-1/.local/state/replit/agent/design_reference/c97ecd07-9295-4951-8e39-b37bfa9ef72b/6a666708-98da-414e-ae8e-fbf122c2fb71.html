@@ -1,0 +1,676 @@
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Provider Catalog | كتالوج مزودي واجهة برمجة التطبيقات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Noto+Sans+Arabic:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    'sans': ['Roboto', 'Noto Sans Arabic', 'sans-serif'],
+                },
+                colors: {
+                    primary: {
+                        50: '#E3F2FD',
+                        100: '#BBDEFB',
+                        500: '#1976D2',
+                        600: '#1565C0',
+                        700: '#0D47A1'
+                    },
+                    secondary: {
+                        50: '#E0F7FA',
+                        100: '#B2EBF2',
+                        500: '#00BCD4',
+                        600: '#00ACC1'
+                    }
+                }
+            }
+        }
+    };
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- @COMPONENT: AppHeader [bilingual support, user actions] -->
+    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
+                            <span class="material-icons text-white text-xl">api</span>
+                        </div>
+                        <div>
+                            <h1 class="text-xl font-semibold text-gray-900">API Provider Catalog</h1>
+                            <p class="text-sm text-gray-600">كتالوج مزودي واجهة برمجة التطبيقات</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Language Toggle -->
+                    <button class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+                        <span class="material-icons text-sm">language</span>
+                        <span class="text-sm font-medium">EN | ع</span>
+                    </button>
+                    
+                    <!-- Export Button -->
+                    <button class="flex items-center space-x-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors">
+                        <span class="material-icons text-sm">download</span>
+                        <span class="text-sm font-medium">Export Data</span>
+                    </button>
+                    
+                    <!-- Add Provider Button -->
+                    <button class="flex items-center space-x-2 px-4 py-2 bg-secondary-500 text-white rounded-lg hover:bg-secondary-600 transition-colors">
+                        <span class="material-icons text-sm">add</span>
+                        <span class="text-sm font-medium">Add Provider</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: AppHeader -->
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <!-- @COMPONENT: GlobalSearch [search across all hierarchy levels] -->
+        <div class="mb-8">
+            <div class="relative max-w-2xl">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="material-icons text-gray-400">search</span>
+                </div>
+                <input type="text" 
+                       placeholder="Search providers, APIs, endpoints... | البحث في المزودين والواجهات..."
+                       class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                       data-mock="true">
+                <!-- @STATE: searchQuery:string = '' -->
+                <!-- @FUNCTIONALITY: Implement real-time search across all hierarchy levels -->
+            </div>
+        </div>
+        <!-- @END_COMPONENT: GlobalSearch -->
+
+        <!-- @COMPONENT: CategoryManagement [dynamic category CRUD] -->
+        <div class="mb-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold text-gray-900">Category Management | إدارة الفئات</h2>
+                <button class="flex items-center space-x-2 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm">
+                    <span class="material-icons text-sm">add</span>
+                    <span>Add Category</span>
+                </button>
+            </div>
+            
+            <div class="flex flex-wrap gap-2">
+                <!-- @MAP: categories.map(category => ( -->
+                <div class="flex items-center space-x-2 bg-gray-100 rounded-full px-3 py-1.5" data-mock="true">
+                    <span class="text-sm font-medium text-gray-700">Flight Tracking</span>
+                    <button class="text-gray-400 hover:text-red-500">
+                        <span class="material-icons text-sm">close</span>
+                    </button>
+                </div>
+                <div class="flex items-center space-x-2 bg-gray-100 rounded-full px-3 py-1.5" data-mock="true">
+                    <span class="text-sm font-medium text-gray-700">Weather Data</span>
+                    <button class="text-gray-400 hover:text-red-500">
+                        <span class="material-icons text-sm">close</span>
+                    </button>
+                </div>
+                <div class="flex items-center space-x-2 bg-gray-100 rounded-full px-3 py-1.5" data-mock="true">
+                    <span class="text-sm font-medium text-gray-700">Aircraft Registry</span>
+                    <button class="text-gray-400 hover:text-red-500">
+                        <span class="material-icons text-sm">close</span>
+                    </button>
+                </div>
+                <div class="flex items-center space-x-2 bg-gray-100 rounded-full px-3 py-1.5" data-mock="true">
+                    <span class="text-sm font-medium text-gray-700">Airport Information</span>
+                    <button class="text-gray-400 hover:text-red-500">
+                        <span class="material-icons text-sm">close</span>
+                    </button>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+        </div>
+        <!-- @END_COMPONENT: CategoryManagement -->
+
+        <!-- @COMPONENT: HierarchicalNavigation [breadcrumb navigation] -->
+        <div class="mb-6">
+            <nav class="flex items-center space-x-2 text-sm">
+                <a href="#" class="text-primary-600 hover:text-primary-700 font-medium">All Providers</a>
+                <span class="material-icons text-gray-400 text-sm">chevron_right</span>
+                <a href="#" class="text-primary-600 hover:text-primary-700" data-mock="true">FlightRadar24</a>
+                <span class="material-icons text-gray-400 text-sm">chevron_right</span>
+                <span class="text-gray-500" data-mock="true">Flight Tracking API</span>
+            </nav>
+        </div>
+        <!-- @END_COMPONENT: HierarchicalNavigation -->
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- @COMPONENT: ProviderList [left sidebar with provider listing] -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="font-semibold text-gray-900">API Providers | مزودي الواجهات</h3>
+                        <p class="text-sm text-gray-600 mt-1">Click to view APIs</p>
+                    </div>
+                    
+                    <div class="divide-y divide-gray-200">
+                        <!-- @MAP: providers.map(provider => ( -->
+                        <div class="p-4 hover:bg-gray-50 cursor-pointer transition-colors" data-mock="true" data-event="click:selectProvider">
+                            <div class="flex items-center space-x-3">
+                                <!-- Provider logo placeholder -->
+                                <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                                    <span class="text-primary-600 font-semibold text-sm">FR24</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-medium text-gray-900 truncate">FlightRadar24</h4>
+                                    <p class="text-sm text-gray-500">flightradar24.com</p>
+                                    <div class="flex items-center space-x-2 mt-2">
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full">Flight Tracking</span>
+                                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">3 APIs</span>
+                                    </div>
+                                </div>
+                                <span class="material-icons text-gray-400">chevron_right</span>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 hover:bg-gray-50 cursor-pointer transition-colors" data-mock="true">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <span class="text-green-600 font-semibold text-sm">OW</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-medium text-gray-900 truncate">OpenWeatherMap</h4>
+                                    <p class="text-sm text-gray-500">openweathermap.org</p>
+                                    <div class="flex items-center space-x-2 mt-2">
+                                        <span class="bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full">Weather Data</span>
+                                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">2 APIs</span>
+                                    </div>
+                                </div>
+                                <span class="material-icons text-gray-400">chevron_right</span>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 hover:bg-gray-50 cursor-pointer transition-colors" data-mock="true">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <span class="text-purple-600 font-semibold text-sm">AP</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-medium text-gray-900 truncate">AirportAPI</h4>
+                                    <p class="text-sm text-gray-500">airportapi.com</p>
+                                    <div class="flex items-center space-x-2 mt-2">
+                                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-0.5 rounded-full">Airport Info</span>
+                                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">1 API</span>
+                                    </div>
+                                </div>
+                                <span class="material-icons text-gray-400">chevron_right</span>
+                            </div>
+                        </div>
+                        <!-- @END_MAP )) -->
+                    </div>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: ProviderList -->
+
+            <!-- @COMPONENT: DetailView [main content area for APIs and endpoints] -->
+            <div class="lg:col-span-2">
+                <!-- Provider Details Section -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center">
+                                    <span class="text-primary-600 font-bold text-xl">FR24</span>
+                                </div>
+                                <div>
+                                    <h2 class="text-2xl font-bold text-gray-900" data-bind="provider.name">FlightRadar24</h2>
+                                    <p class="text-gray-600" data-bind="provider.website">flightradar24.com</p>
+                                    <div class="flex items-center space-x-2 mt-2">
+                                        <span class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">Flight Tracking</span>
+                                        <span class="bg-gray-100 text-gray-600 text-sm px-3 py-1 rounded-full">Global Coverage</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+                                    <span class="material-icons">edit</span>
+                                </button>
+                                <button class="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50">
+                                    <span class="material-icons">delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Provider Information Grid -->
+                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-3">Basic Information | المعلومات الأساسية</h4>
+                            <dl class="space-y-2">
+                                <div>
+                                    <dt class="text-sm font-medium text-gray-500">Short Code</dt>
+                                    <dd class="text-sm text-gray-900" data-bind="provider.shortCode">FR24</dd>
+                                </div>
+                                <div>
+                                    <dt class="text-sm font-medium text-gray-500">Website URL</dt>
+                                    <dd class="text-sm text-blue-600 hover:text-blue-700">
+                                        <a href="#" data-bind="provider.websiteUrl">https://flightradar24.com</a>
+                                    </dd>
+                                </div>
+                                <div>
+                                    <dt class="text-sm font-medium text-gray-500">Documentation</dt>
+                                    <dd class="text-sm text-blue-600 hover:text-blue-700">
+                                        <a href="#" data-bind="provider.documentationUrl">https://flightradar24.com/api-docs</a>
+                                    </dd>
+                                </div>
+                            </dl>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-3">Coverage & Technical | التغطية والتقنية</h4>
+                            <dl class="space-y-2">
+                                <div>
+                                    <dt class="text-sm font-medium text-gray-500">Geographic Coverage</dt>
+                                    <dd class="text-sm text-gray-900" data-bind="provider.geographicCoverage">Global</dd>
+                                </div>
+                                <div>
+                                    <dt class="text-sm font-medium text-gray-500">Data Sources</dt>
+                                    <dd class="text-sm text-gray-900" data-bind="provider.dataSources">ADS-B, MLAT, Satellite</dd>
+                                </div>
+                                <div>
+                                    <dt class="text-sm font-medium text-gray-500">Real-time Latency</dt>
+                                    <dd class="text-sm text-gray-900" data-bind="provider.realtimeLatency">1-3 seconds</dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- APIs Section -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold text-gray-900">APIs | واجهات برمجة التطبيقات</h3>
+                            <button class="flex items-center space-x-2 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors">
+                                <span class="material-icons text-sm">add</span>
+                                <span class="text-sm font-medium">Add API</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="divide-y divide-gray-200">
+                        <!-- @MAP: provider.apis.map(api => ( -->
+                        <div class="p-6" data-mock="true">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-3 mb-3">
+                                        <h4 class="text-lg font-medium text-gray-900" data-bind="api.name">Flight Tracking API</h4>
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">v2.1</span>
+                                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Active</span>
+                                    </div>
+                                    
+                                    <p class="text-gray-600 mb-4" data-bind="api.description">Real-time flight tracking with comprehensive aircraft position data and flight details.</p>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                        <div>
+                                            <dt class="text-xs font-medium text-gray-500 uppercase tracking-wide">Base URL</dt>
+                                            <dd class="text-sm text-gray-900 font-mono" data-bind="api.baseUrl">https://api.flightradar24.com/v2</dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-xs font-medium text-gray-500 uppercase tracking-wide">Auth Type</dt>
+                                            <dd class="text-sm text-gray-900" data-bind="api.authType">API Key</dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-xs font-medium text-gray-500 uppercase tracking-wide">Rate Limit</dt>
+                                            <dd class="text-sm text-gray-900" data-bind="api.rateLimit">1000 req/hour</dd>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Categories -->
+                                    <div class="flex items-center space-x-2 mb-4">
+                                        <span class="text-sm font-medium text-gray-500">Categories:</span>
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Flight Tracking</span>
+                                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Real-time Data</span>
+                                    </div>
+                                    
+                                    <!-- Endpoints Preview -->
+                                    <div class="bg-gray-50 rounded-lg p-4">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <h5 class="font-medium text-gray-900">Endpoints | نقاط النهاية</h5>
+                                            <button class="text-sm text-primary-600 hover:text-primary-700 font-medium">Add Endpoint</button>
+                                        </div>
+                                        
+                                        <div class="space-y-2">
+                                            <!-- @MAP: api.endpoints.map(endpoint => ( -->
+                                            <div class="flex items-center justify-between p-3 bg-white rounded border" data-mock="true">
+                                                <div class="flex items-center space-x-3">
+                                                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded">GET</span>
+                                                    <code class="text-sm font-mono text-gray-900" data-bind="endpoint.path">/flights</code>
+                                                    <span class="text-sm text-gray-600" data-bind="endpoint.description">Get live flight data</span>
+                                                </div>
+                                                <div class="flex items-center space-x-2">
+                                                    <button class="p-1 text-gray-400 hover:text-gray-600">
+                                                        <span class="material-icons text-sm">edit</span>
+                                                    </button>
+                                                    <button class="p-1 text-gray-400 hover:text-red-600">
+                                                        <span class="material-icons text-sm">delete</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="flex items-center justify-between p-3 bg-white rounded border" data-mock="true">
+                                                <div class="flex items-center space-x-3">
+                                                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded">GET</span>
+                                                    <code class="text-sm font-mono text-gray-900">/flights/{id}</code>
+                                                    <span class="text-sm text-gray-600">Get specific flight details</span>
+                                                </div>
+                                                <div class="flex items-center space-x-2">
+                                                    <button class="p-1 text-gray-400 hover:text-gray-600">
+                                                        <span class="material-icons text-sm">edit</span>
+                                                    </button>
+                                                    <button class="p-1 text-gray-400 hover:text-red-600">
+                                                        <span class="material-icons text-sm">delete</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="flex items-center justify-between p-3 bg-white rounded border" data-mock="true">
+                                                <div class="flex items-center space-x-3">
+                                                    <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">POST</span>
+                                                    <code class="text-sm font-mono text-gray-900">/flights/search</code>
+                                                    <span class="text-sm text-gray-600">Search flights by criteria</span>
+                                                </div>
+                                                <div class="flex items-center space-x-2">
+                                                    <button class="p-1 text-gray-400 hover:text-gray-600">
+                                                        <span class="material-icons text-sm">edit</span>
+                                                    </button>
+                                                    <button class="p-1 text-gray-400 hover:text-red-600">
+                                                        <span class="material-icons text-sm">delete</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <!-- @END_MAP )) -->
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-2 ml-6">
+                                    <button class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+                                        <span class="material-icons">edit</span>
+                                    </button>
+                                    <button class="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50">
+                                        <span class="material-icons">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Second API Example -->
+                        <div class="p-6" data-mock="true">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-3 mb-3">
+                                        <h4 class="text-lg font-medium text-gray-900">Airport Data API</h4>
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">v1.0</span>
+                                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Active</span>
+                                    </div>
+                                    
+                                    <p class="text-gray-600 mb-4">Comprehensive airport information including runways, terminals, and operational data.</p>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                        <div>
+                                            <dt class="text-xs font-medium text-gray-500 uppercase tracking-wide">Base URL</dt>
+                                            <dd class="text-sm text-gray-900 font-mono">https://api.flightradar24.com/airports</dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-xs font-medium text-gray-500 uppercase tracking-wide">Auth Type</dt>
+                                            <dd class="text-sm text-gray-900">API Key</dd>
+                                        </div>
+                                        <div>
+                                            <dt class="text-xs font-medium text-gray-500 uppercase tracking-wide">Rate Limit</dt>
+                                            <dd class="text-sm text-gray-900">500 req/hour</dd>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center space-x-2 mb-4">
+                                        <span class="text-sm font-medium text-gray-500">Categories:</span>
+                                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">Airport Info</span>
+                                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">Infrastructure</span>
+                                    </div>
+                                    
+                                    <div class="bg-gray-50 rounded-lg p-4">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <h5 class="font-medium text-gray-900">Endpoints | نقاط النهاية</h5>
+                                            <button class="text-sm text-primary-600 hover:text-primary-700 font-medium">Add Endpoint</button>
+                                        </div>
+                                        
+                                        <div class="space-y-2">
+                                            <div class="flex items-center justify-between p-3 bg-white rounded border" data-mock="true">
+                                                <div class="flex items-center space-x-3">
+                                                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded">GET</span>
+                                                    <code class="text-sm font-mono text-gray-900">/airports</code>
+                                                    <span class="text-sm text-gray-600">List all airports</span>
+                                                </div>
+                                                <div class="flex items-center space-x-2">
+                                                    <button class="p-1 text-gray-400 hover:text-gray-600">
+                                                        <span class="material-icons text-sm">edit</span>
+                                                    </button>
+                                                    <button class="p-1 text-gray-400 hover:text-red-600">
+                                                        <span class="material-icons text-sm">delete</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="flex items-center justify-between p-3 bg-white rounded border" data-mock="true">
+                                                <div class="flex items-center space-x-3">
+                                                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded">GET</span>
+                                                    <code class="text-sm font-mono text-gray-900">/airports/{icao}</code>
+                                                    <span class="text-sm text-gray-600">Get airport by ICAO code</span>
+                                                </div>
+                                                <div class="flex items-center space-x-2">
+                                                    <button class="p-1 text-gray-400 hover:text-gray-600">
+                                                        <span class="material-icons text-sm">edit</span>
+                                                    </button>
+                                                    <button class="p-1 text-gray-400 hover:text-red-600">
+                                                        <span class="material-icons text-sm">delete</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-2 ml-6">
+                                    <button class="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+                                        <span class="material-icons">edit</span>
+                                    </button>
+                                    <button class="p-2 text-gray-400 hover:text-red-600 rounded-lg hover:bg-red-50">
+                                        <span class="material-icons">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- @END_MAP )) -->
+                    </div>
+                </div>
+            </div>
+            <!-- @END_COMPONENT: DetailView -->
+        </div>
+
+        <!-- @COMPONENT: AddProviderModal [dynamic form for new provider] -->
+        <div id="addProviderModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                    <div class="bg-white px-6 pt-6 pb-4">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-semibold text-gray-900">Add New Provider | إضافة مزود جديد</h3>
+                            <button class="text-gray-400 hover:text-gray-600">
+                                <span class="material-icons">close</span>
+                            </button>
+                        </div>
+                        
+                        <form class="space-y-6">
+                            <!-- Basic Information Section -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-900 mb-4">Basic Information | المعلومات الأساسية</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Provider Name *</label>
+                                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" placeholder="e.g., FlightRadar24" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Short Code *</label>
+                                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" placeholder="e.g., FR24" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Website URL *</label>
+                                        <input type="url" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" placeholder="https://example.com" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Documentation URL</label>
+                                        <input type="url" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" placeholder="https://docs.example.com">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Coverage & Technical Section -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-900 mb-4">Coverage & Technical | التغطية والتقنية</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Geographic Coverage</label>
+                                        <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                            <option>Global</option>
+                                            <option>Regional</option>
+                                            <option>Country-specific</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Real-time Latency</label>
+                                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" placeholder="e.g., 1-3 seconds">
+                                    </div>
+                                </div>
+                                
+                                <!-- Multi-entry field for Data Sources -->
+                                <div class="mt-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Data Sources | مصادر البيانات</label>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center space-x-2">
+                                            <input type="text" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" placeholder="e.g., ADS-B">
+                                            <button type="button" class="p-2 text-red-500 hover:text-red-700">
+                                                <span class="material-icons text-sm">remove</span>
+                                            </button>
+                                        </div>
+                                        <button type="button" class="flex items-center space-x-2 text-primary-600 hover:text-primary-700 text-sm">
+                                            <span class="material-icons text-sm">add</span>
+                                            <span>Add Data Source</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Categories Section -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="font-medium text-gray-900 mb-4">Categories | الفئات</h4>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                    <label class="flex items-center space-x-2">
+                                        <input type="checkbox" class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                                        <span class="text-sm">Flight Tracking</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2">
+                                        <input type="checkbox" class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                                        <span class="text-sm">Weather Data</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2">
+                                        <input type="checkbox" class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                                        <span class="text-sm">Aircraft Registry</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2">
+                                        <input type="checkbox" class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                                        <span class="text-sm">Airport Info</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="bg-gray-50 px-6 py-4 flex justify-end space-x-3">
+                        <button type="button" class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600">
+                            Create Provider
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: AddProviderModal -->
+    </div>
+
+    <script>
+    (function() {
+        // TODO: Implement business logic, API calls, and state management
+        
+        // Basic UI interactions for demonstration
+        const addProviderBtn = document.querySelector('button[class*="bg-secondary-500"]');
+        const modal = document.getElementById('addProviderModal');
+        
+        if (addProviderBtn && modal) {
+            addProviderBtn.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+            });
+            
+            // Close modal handlers
+            const closeBtn = modal.querySelector('.material-icons');
+            const cancelBtn = modal.querySelector('button[type="button"]');
+            
+            [closeBtn, cancelBtn].forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('click', () => {
+                        modal.classList.add('hidden');
+                    });
+                }
+            });
+        }
+        
+        // Add dynamic form field functionality
+        document.querySelectorAll('button[class*="add"]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                // TODO: Implement dynamic field addition
+                console.log('Add field functionality to be implemented');
+            });
+        });
+        
+        // Search functionality placeholder
+        const searchInput = document.querySelector('input[placeholder*="Search"]');
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                // TODO: Implement real-time search
+                console.log('Search query:', e.target.value);
+            });
+        }
+        
+        // Provider selection handlers
+        document.querySelectorAll('[data-event*="selectProvider"]').forEach(element => {
+            element.addEventListener('click', function() {
+                // TODO: Implement provider selection and API loading
+                console.log('Provider selected');
+            });
+        });
+        
+        // Export functionality
+        const exportBtn = document.querySelector('button[class*="bg-primary-500"]');
+        if (exportBtn && exportBtn.textContent.includes('Export')) {
+            exportBtn.addEventListener('click', function() {
+                // TODO: Implement data export in JSON/CSV format
+                console.log('Export functionality to be implemented');
+            });
+        }
+    })();
+    </script>
+</body>
+</html>
